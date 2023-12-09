@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace BlogASPNET.Extensions
+namespace BlogASPNET.Extensions;
+
+public static class ModelStateExtension
 {
-    public static class ModelStateExtension
+    public static List<string> GetErrors(this ModelStateDictionary modelState)
     {
-        public static List<string> GetErrors(this ModelStateDictionary modelState)
-        {
-            var result = new List<string>();
+        var result = new List<string>();
 
-            foreach (var item in modelState.Values)
-                result.AddRange(item.Errors.Select(error => error.ErrorMessage));
+        foreach (var item in modelState.Values)
+            result.AddRange(item.Errors.Select(error => error.ErrorMessage));
 
-            return result;
-        }
+        return result;
     }
 }
