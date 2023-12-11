@@ -1,5 +1,8 @@
-﻿using BlogASPNET.Services;
-using Microsoft.AspNetCore.Authorization;
+﻿using BlogASPNET.Data;
+using BlogASPNET.Extensions;
+using BlogASPNET.Models;
+using BlogASPNET.Services;
+using BlogASPNET.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogASPNET.Controllers;
@@ -13,7 +16,23 @@ public class AccountControler : ControllerBase
         _tokenService = tokenService;
     }
 
-    [HttpPost("v1/login")]
+    [HttpPost("v1/accounts/")]
+    public async Task<IActionResult> Post([FromBody] RegisterViewModel model, [FromServices] DataContext context)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
+
+        var user = new User()
+        {
+            Name = model.Name,
+            Email = model.Email,
+            Slug = model.Email.Replace("@", "-").Replace(".", "-")
+        };
+
+        return Ok(user);
+    }
+
+    [HttpPost("v1/accounts/login")]
     public IActionResult Login()
     {
         var token = _tokenService.GenerateToken(null);
@@ -21,15 +40,4 @@ public class AccountControler : ControllerBase
         return Ok(token);
     }
 
-    [Authorize(Roles = "user")]
-    [HttpGet("v1/user")]
-    public IActionResult GetUser() => Ok(User.Identity.Name);
-
-    [Authorize(Roles = "author")]
-    [HttpGet("v1/author")]
-    public IActionResult GetAuthor() => Ok(User.Identity.Name);
-
-    [Authorize(Roles = "admin")]
-    [HttpGet("v1/admin")]
-    public IActionResult GetAdmin() => Ok(User.Identity.Name);
 }
