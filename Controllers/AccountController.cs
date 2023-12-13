@@ -10,10 +10,10 @@ using SecureIdentity.Password;
 namespace BlogASPNET.Controllers;
 
 [ApiController]
-public class AccountControler : ControllerBase
+public class AccountController : ControllerBase
 {
     private readonly TokenService _tokenService;
-    public AccountControler(TokenService tokenService)
+    public AccountController(TokenService tokenService)
     {
         _tokenService = tokenService;
     }
