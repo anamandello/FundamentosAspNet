@@ -456,3 +456,4 @@ $RECYCLE.BIN/
 
 *.sln
 Migrations
+*/images/*

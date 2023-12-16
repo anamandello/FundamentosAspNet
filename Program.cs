@@ -25,9 +25,9 @@ void LoadConfiguration(WebApplication app)
     Configuration.ApiKeyName = app.Configuration.GetValue<string>("ApiKeyName");
     Configuration.ApiKey = app.Configuration.GetValue<string>("ApiKey");
 
-    var smtp = new Configuration.SmtpConfiguration();
-    app.Configuration.GetSection("Smtp").Bind(smtp);
-    Configuration.Smtp = smtp;
+    //var smtp = new Configuration.SmtpConfiguration();
+    //app.Configuration.GetSection("Smtp").Bind(smtp);
+    //Configuration.Smtp = smtp;
 }
 
 void ConfigureAuthentication(WebApplicationBuilder builder)
@@ -59,7 +59,6 @@ void ConfigureMvc(WebApplicationBuilder builder)
 
 void ConfigureServices(WebApplicationBuilder builder)
 {
-
     builder.Services.AddDbContext<DataContext>();
     builder.Services.AddTransient<TokenService>();
 }
